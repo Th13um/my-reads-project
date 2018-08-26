@@ -19,18 +19,26 @@ class BooksApp extends React.Component {
     })
   }
 
-  changeShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(book => {
+  changeShelf = (MovingBook, newShelf) => {
+    BooksAPI.update(MovingBook, newShelf).then(() => {
+
+      this.state.books.forEach(function (element) {
+              if (element.id === MovingBook.id) {
+                element.shelf = newShelf
+              }
+             })
+           })
+           .then(() => {
       this.setState(state => ({
-        books: state.books.update
+        books: state.books
       }))
     })
   }
 
   render() {
     return (
-      <div className="app">
-        <Route exact path='/' exact render={() => (
+      <div>
+        <Route exact path='/' render={() => (
           <BookIndex
             books={this.state.books}
             changeShelf={this.changeShelf}

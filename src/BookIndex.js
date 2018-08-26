@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 
 class BookIndex extends Component {
 
+  super(props) {
+          this.setState = {
+              books: props.books
+          }
+      }
+
   static propTypes={
     books: PropTypes.array.isRequired,
     changeShelf: PropTypes.func.isRequired
@@ -34,9 +40,9 @@ class BookIndex extends Component {
                                        <div className="book-top">
                                            <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
                                            <div className="book-shelf-changer">
-                                               <select name="bookShelf" onChange={(event) => changeShelf(book, event.target.value)}>
+                                               <select name="bookShelf" value="currentlyReading" onChange={(event) => changeShelf(book, event.target.value)}>
                                                    <option value="none" disabled>Move to...</option>
-                                                   <option value="currentlyReading" selected="selected">Currently Reading</option>
+                                                   <option value="currentlyReading">Currently Reading</option>
                                                    <option value="wantToRead">Want to Read</option>
                                                    <option value="read">Read</option>
                                                    <option value="none">None</option>
@@ -63,10 +69,10 @@ class BookIndex extends Component {
                                        <div className="book-top">
                                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
                                            <div className="book-shelf-changer">
-                                               <select name="bookShelf" onChange={(event) => changeShelf(book, event.target.value)}>
+                                               <select name="bookShelf" value="wantToRead"onChange={(event) => changeShelf(book, event.target.value)}>
                                                    <option value="none" disabled>Move to...</option>
                                                    <option value="currentlyReading">Currently Reading</option>
-                                                   <option value="wantToRead" selected="selected"> Want to Read</option>
+                                                   <option value="wantToRead"> Want to Read</option>
                                                    <option value="read">Read</option>
                                                    <option value="none">None</option>
                                                </select>
@@ -92,11 +98,11 @@ class BookIndex extends Component {
                                        <div className="book-top">
                                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
                                            <div className="book-shelf-changer">
-                                               <select name="bookShelf" onChange={(event) => changeShelf(book, event.target.value)}>
+                                               <select name="bookShelf" value="read" onChange={(event) => changeShelf(book, event.target.value)}>
                                                    <option value="none" disabled>Move to...</option>
                                                    <option value="currentlyReading">Currently Reading</option>
                                                    <option value="wantToRead">Want to Read</option>
-                                                   <option value="read" selected="selected">Read</option>
+                                                   <option value="read">Read</option>
                                                    <option value="none">None</option>
                                                </select>
                                            </div>
