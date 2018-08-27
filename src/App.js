@@ -9,31 +9,67 @@ class BooksApp extends React.Component {
 
   state = {
     books: [] ,
-    searchBook: []
+    bookFound: []
   }
-
+// Get all books
   componentDidMount() {
    BooksAPI.getAll().then((books) => {
      this.setState({ books })
-     //console.log(this.state);
     })
   }
+//Search the books
+searchBook = (searchQuery) => {
+  if (searchQuery === ""){
+    this.setState(()=>{
+      return {bookFound:[]};
+    })
+  }else{
+    BooksAPI.search(searchQuery).then(bookFound => {
+      return bookFound;
+    })
+    .then(bookFound => {
+        let response = true;
+        let resultsExist = bookFound != null? true : false;
+        if(!resultsExist) {response = false;}
 
-  changeShelf = (MovingBook, newShelf) => {
-    BooksAPI.update(MovingBook, newShelf).then(() => {
+        if (response) {
+          let belongs = Object.entries(bookFound)[0][0] === 'error'?false : true;
+          if(!belongs) {response = false}
+        }
+        if(response) {
+          let results = bookFound.map(b =>b.id);
+          let bookQuery = [];
+          results.forEach(function (b) {
+          bookQuery.push(BooksAPI.get(b))
+          })
+          return Promise.all(bookQuery)
+            .then(newResults => {
+              return newResults
+            })
 
-      this.state.books.forEach(function (element) {
-              if (element.id === MovingBook.id) {
-                element.shelf = newShelf
-              }
-             })
-           })
-           .then(() => {
+        }else{
+          return bookFound = [];
+        }
+    })
+    .then(bookFound => {
+
       this.setState(state => ({
-        books: state.books
+        bookFound
       }))
     })
-  }
+  }}
+
+// Move book from shelf to another and update the page
+  changeShelf = (movingBook, newShelf) => {
+    BooksAPI.update(movingBook, newShelf).then(() => {
+
+      BooksAPI.getAll().then((books) => {
+             this.setState({
+               books
+             })
+           })
+         })
+     }
 
   render() {
     return (
@@ -44,10 +80,10 @@ class BooksApp extends React.Component {
             changeShelf={this.changeShelf}
           />
         )} />
-        <Route exact path='/search' render={() => (
+        <Route exact path='/search' render={(history) => (
           <BookSearch
+            bookFound={this.state.bookFound}
             changeShelf={this.changeShelf}
-            updateBooksList={this.updateBooksList}
             searchBook={this.searchBook}
           />
         )} />

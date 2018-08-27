@@ -17,7 +17,8 @@ class BookIndex extends Component {
 
   render() {
 
-    const {books, changeShelf} = this.props;
+    const {books, changeShelf} = this.props; // For easiest reading and developpement
+    //Filter books by shelf
     const currentlyReading = books.filter(book => book.shelf === "currentlyReading");
     const wantToRead = books.filter(book => book.shelf === "wantToRead");
     const booksRead = books.filter(book => book.shelf === "read");
@@ -29,11 +30,11 @@ class BookIndex extends Component {
        </div>
        <div className="list-books-content">
            <div>
+
                <div className="bookshelf">
                    <h2 className="bookshelf-title">Currently Reading</h2>
                    <div className="bookshelf-books">
                        <ol className="books-grid">
-                           {console.log(currentlyReading)}
                            {currentlyReading.map((book) => (
                                <li key={book.id}>
                                    <div className="book">
