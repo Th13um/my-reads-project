@@ -12,9 +12,10 @@ class BookIndex extends Component {
 
   render() {
 
-    const {books, changeShelf} = this.props; // For easiest reading and developpement
+// For easiest reading and developpement
+    const {books, changeShelf} = this.props;
 
-    //Filter books by shelf
+//Filter books by shelf
     const currentlyReading = books.filter(book => book.shelf === "currentlyReading");
     const wantToRead = books.filter(book => book.shelf === "wantToRead");
     const booksRead = books.filter(book => book.shelf === "read");

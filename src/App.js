@@ -11,20 +11,24 @@ class BooksApp extends React.Component {
     books: [] ,
     bookFound: []
   }
+
 // Get all books from BooksAPI
   componentDidMount() {
    BooksAPI.getAll().then((books) => {
      this.setState({ books })
     })
   }
+
 //Search a matching book in the BooksAPI from a Query.
 searchBook = (searchQuery) => {
+  
   //if the search query is cleared, then show no results
   if (searchQuery.error){
     this.setState(()=>{
       return {bookFound:[]};
     })
   }else{
+
     //search the BooksAPi and return the result.
     BooksAPI.search(searchQuery).then(bookFound => {
       return bookFound;
@@ -53,6 +57,7 @@ searchBook = (searchQuery) => {
           return bookFound = [];
         }
     })
+
     //Update the UI.
     .then(bookFound => {
 
