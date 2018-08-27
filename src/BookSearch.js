@@ -8,12 +8,14 @@ class BookSearch extends Component {
         query: ''
     }
 
+//Require properties
     static propTypes = {
         bookFound: PropTypes.array.isRequired,
         changeShelf: PropTypes.func.isRequired,
         searchBook: PropTypes.func.isRequired
     }
 
+// Update Search Bar
     updateQuery = (query) => {
         this.setState({ query})
         this.props.searchBook(query);

@@ -4,12 +4,7 @@ import PropTypes from 'prop-types';
 
 class BookIndex extends Component {
 
-  super(props) {
-          this.setState = {
-              books: props.books
-          }
-      }
-
+//Require properties
   static propTypes={
     books: PropTypes.array.isRequired,
     changeShelf: PropTypes.func.isRequired
@@ -18,6 +13,7 @@ class BookIndex extends Component {
   render() {
 
     const {books, changeShelf} = this.props; // For easiest reading and developpement
+
     //Filter books by shelf
     const currentlyReading = books.filter(book => book.shelf === "currentlyReading");
     const wantToRead = books.filter(book => book.shelf === "wantToRead");
