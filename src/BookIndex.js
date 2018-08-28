@@ -14,7 +14,7 @@ class BookIndex extends Component {
   render() {
 
 // For easiest reading and developpement
-    const {books, changeShelf} = this.props;
+    const {books} = this.props;
 
 //Filter books by shelf
     const currentlyReading = books.filter(book => book.shelf === "currentlyReading");
