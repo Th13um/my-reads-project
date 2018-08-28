@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import * as BooksAPI from './BooksAPI';
+import Book from './Book';
 
 class BookSearch extends Component {
 
-  state = { query: ''}
+  state = {
+    query: '',
+    bookFound: []
+}
 
 //Require properties.
     static propTypes = {
@@ -16,44 +21,54 @@ class BookSearch extends Component {
 // Update Search Bar.
     updateQuery = (query) => {
         this.setState({ query})
-        this.props.searchBook(query);
+        this.searchBook(query);
+    }
+
+    searchBook = (query) => {
+        if (query) {
+            //display books that match
+            BooksAPI.search(query).then((bookFound) => {
+                if (bookFound.error) {
+                    this.setState({ bookFound: [] })
+                } else {
+                    this.setState({ bookFound })
+                }
+            })
+            //if there is no query, then show no results
+        } else {
+            this.setState({ bookFound: [] })
+        }
     }
 
 render() {
 
-// For easiest reading and developpement
-  const { bookFound } = this.props;
-  const { changeShelf } = this.props;
-  const { query } = this.state;
+  this.state.bookFound.map((queryBook) => {
+    queryBook.shelf = "none"
+    this.props.books.map((book) => {
+      queryBook.id === book.id ? queryBook.shelf=book.shelf : ""}
+    )
+  })
 
   return (
     <div className="search-books">
       <div className="search-books-bar">
         <Link to="/"  className="close-search">Close</Link>
         <div className="search-books-input-wrapper">
-          <input type="text" placeholder="Search by title or author" value={query} onChange={(event) => this.updateQuery(event.target.value)}/>
+          <input type="text" placeholder="Search by title or author" value={this.state.query} onChange={(event) => this.updateQuery(event.target.value)}/>
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {bookFound.map(book =>
-            <li key={book.id}>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                    <div className="book-shelf-changer">
-                      <select value={book.shelf ? book.shelf : "none"} onChange={(event) => changeShelf(book, event.target.value)}>
-                        <option value="move" disabled>Move to...</option>
-                        <option value="currentlyReading" >Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors}</div>
-                </div>
+          {this.state.bookFound.map((queryBook) =>
+            <li key={queryBook.id}>
+            <Book
+                bookID={queryBook.id}
+                image={queryBook.imageLinks}
+                title={queryBook.title}
+                authors={queryBook.authors}
+                changeShelf={this.props.changeShelf}
+                currentShelf={queryBook.shelf}
+                />
               </li>
               )}
           </ol>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Book from './Book';
 
 class BookIndex extends Component {
 
@@ -23,7 +24,7 @@ class BookIndex extends Component {
     return (
       <div className="list-books">
        <div className="list-books-title">
-           <h1>MyReads</h1>
+          <h1>MyReads</h1>
        </div>
        <div className="list-books-content">
            <div>
@@ -33,24 +34,16 @@ class BookIndex extends Component {
                    <div className="bookshelf-books">
                        <ol className="books-grid">
                            {currentlyReading.map((book) => (
-                               <li key={book.id}>
-                                   <div className="book">
-                                       <div className="book-top">
-                                           <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                                           <div className="book-shelf-changer">
-                                               <select name="bookShelf" value="currentlyReading" onChange={(event) => changeShelf(book, event.target.value)}>
-                                                   <option value="none" disabled>Move to...</option>
-                                                   <option value="currentlyReading">Currently Reading</option>
-                                                   <option value="wantToRead">Want to Read</option>
-                                                   <option value="read">Read</option>
-                                                   <option value="none">None</option>
-                                               </select>
-                                           </div>
-                                       </div>
-                                       <div className="book-title">{book.title}</div>
-                                       <div className="book-authors">{book.authors.join(', ')}</div>
-                                   </div>
-                               </li>
+                              <li key={book.id}>
+                               <Book
+                                 bookID={book.id}
+                                 image={book.imageLinks}
+                                 title={book.title}
+                                 authors={book.authors}
+                                 currentShelf={book.shelf}
+                                 changeShelf={this.props.changeShelf}
+                                />
+                              </li>
                            ))}
                        </ol>
                    </div>
@@ -63,22 +56,14 @@ class BookIndex extends Component {
                            {console.log(wantToRead)}
                            {wantToRead.map((book) => (
                                <li key={book.id}>
-                                   <div className="book">
-                                       <div className="book-top">
-                                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                                           <div className="book-shelf-changer">
-                                               <select name="bookShelf" value="wantToRead"onChange={(event) => changeShelf(book, event.target.value)}>
-                                                   <option value="none" disabled>Move to...</option>
-                                                   <option value="currentlyReading">Currently Reading</option>
-                                                   <option value="wantToRead"> Want to Read</option>
-                                                   <option value="read">Read</option>
-                                                   <option value="none">None</option>
-                                               </select>
-                                           </div>
-                                       </div>
-                                       <div className="book-title">{book.title}</div>
-                                       <div className="book-authors">{book.authors.join(', ')}</div>
-                                   </div>
+                                  <Book
+                                    bookID={book.id}
+                                    image={book.imageLinks}
+                                    title={book.title}
+                                    authors={book.authors}
+                                    currentShelf={book.shelf}
+                                    changeShelf={this.props.changeShelf}
+                                  />
                                </li>
                            ))}
                        </ol>
@@ -92,22 +77,14 @@ class BookIndex extends Component {
                            {console.log(booksRead)}
                            {booksRead.map((book) => (
                                <li key={book.id}>
-                                   <div className="book">
-                                       <div className="book-top">
-                                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-                                           <div className="book-shelf-changer">
-                                               <select name="bookShelf" value="read" onChange={(event) => changeShelf(book, event.target.value)}>
-                                                   <option value="none" disabled>Move to...</option>
-                                                   <option value="currentlyReading">Currently Reading</option>
-                                                   <option value="wantToRead">Want to Read</option>
-                                                   <option value="read">Read</option>
-                                                   <option value="none">None</option>
-                                               </select>
-                                           </div>
-                                       </div>
-                                       <div className="book-title">{book.title}</div>
-                                       <div className="book-authors">{book.authors.join(', ')}</div>
-                                   </div>
+                                <Book
+                                  bookID={book.id}
+                                  image={book.imageLinks}
+                                  title={book.title}
+                                  authors={book.authors}
+                                  currentShelf={book.shelf}
+                                  changeShelf={this.props.changeShelf}
+                                />
                                </li>
                            ))}
                        </ol>
